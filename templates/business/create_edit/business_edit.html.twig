@@ -1,0 +1,99 @@
+{% extends '/layout/base.html.twig' %}
+{% import '/components/helpers_macro.html.twig' as helpers %}
+{% import _self as self %}
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('/app/css/business.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/vendor/email_multiple/lib/emails-input.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/vendor/email_multiple/assets/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/css/input-loading.css') }}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+{% endblock %}
+
+{% block title %} | Edit business{% endblock %}
+
+{% block urls %}
+    data-api_v1_business_business_id_review_generate_post="{{ path('api_v1_business_business_id_review_generate_post', {business_id: business.id}) }}"
+    data-api_v1_business_business_id_review_all_get="{{ path('api_v1_business_business_id_review_all_get', {business_id: business.id}) }}"
+    data-api_v1_google_place_autocomplete_get={{ path('api_v1_google_place_autocomplete_get') }}
+    data-api_v1_google_place_details_post={{ path('api_v1_google_place_details_post') }}
+{% endblock %}
+
+{% block content %}
+    {{ helpers.notifications_success() }}
+    {{ helpers.notifications_error() }}
+    {{ helpers.notifications_warning() }}
+    <div class="row">
+        <div class="col-sm-12 col-md-8">
+            <div class="card card-info card-outline direct-chat direct-chat-primary">
+                {{ form_start(form) }}
+                <div class="card-header card-header-compressed">
+                    <h4 class="card-title">Edit business</h4>
+                    <div class="card-tools">
+                        {{ self.actions() }}
+                    </div>
+                </div>
+                <div class="card-body p-2">
+                    <div class="row">
+                        <div  class="col-10 offset-1" >
+                            {% include '/business/create_edit/_form_fields.html.twig' %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer p-2 text-right">
+                    {{ self.actions() }}
+                </div>
+                {{ form_end(form) }}
+                {{ helpers.form_processing() }}
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 ">
+            {% include '/business/create_edit/_review_list.html.twig' %}
+        </div>
+    </div>
+
+    {% include '/business/create_edit/_modalRemoveReviewItem.html.twig' %}
+    {% include '/business/create_edit/_modalSendReviewByEmail.html.twig' %}
+{% endblock %}
+
+{# Macro defining the btns holding the actions to perform #}
+{% macro actions() %}
+    <a href="{{ path('business_create') }}" class="btn btn-xs btn-light">
+        Add new business
+    </a>
+    <a href="{{ path('business_list') }}" class="btn btn-xs btn-light">Cancel</a>
+    <button type="submit" class="btn btn-xs btn-info">Update</button>
+{% endmacro %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="{{ asset('/dist/js/cleave_js.js') }}"></script>
+    <script src="{{ asset('/app/vendor/email_multiple/lib/emails-input.js') }}"></script>
+    <script src="{{ asset('/dist/js/cleave_js.js') }}"></script>
+    <script src="{{ asset('/app/js/common/InputSpinner.js') }}"></script>
+    <script src="{{ asset('/app/js/business/BusinessFormValidator.js') }}"></script>
+    <script src="{{ asset('/app/js/common/FormFieldFormatter.js') }}"></script>
+    <script src="{{ asset('/app/js/business/BusinessEdit.js') }}"></script>
+    <script src="{{ asset('/app/js/common/FormManagement.js') }}"></script>
+    <script src="{{ asset('/app/js/common/CopyClipboard.js') }}"></script>
+    <script src="{{ asset('/app/js/common/OverlayLoaderManager.js') }}"></script>
+    <script src="{{ asset('/app/js/common/DotsLoaderManager.js') }}"></script>
+    <script src="{{ asset('/app/js/GoogleReviewLink/GoogleReviewLinkManager.js') }}"></script>
+    <script src="{{ asset('/app/js/common/ExpandCollapse.js') }}"></script>
+    <script src="{{ asset('/app/js/common/MultipleEmailsField.js') }}"></script>
+    <script src="{{ asset('/app/js/business/FindPlaceDetails.js') }}"></script>
+    <script src="{{ asset('/app/js/business/AddressAutoComplete.js') }}"></script>
+    <script>
+        const businessEdit = new BusinessEdit();
+        businessEdit.init();
+        businessEdit.loadReviewsByBusiness();
+        new FormManagement();
+        (new CopyClipboard()).init();
+        (new ExpandCollapse()).init();
+        (new Notification()).listenUIEvents();
+        (new FormFieldFormatter()).formatZipCodeFields();
+        (new AddressAutoComplete()).init();
+    </script>
+{% endblock %}

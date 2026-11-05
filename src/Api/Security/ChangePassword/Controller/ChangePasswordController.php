@@ -1,0 +1,88 @@
+<?php
+/**
+ * @author Yenier Jimenez <yjmorales86@gmail.com>
+ */
+
+namespace App\Api\Security\ChangePassword\Controller;
+
+use App\Api\Core\Exception\ApiErrorException;
+use App\Api\Core\Exception\ApiNormalOperationException;
+use App\Api\Core\Model\ApiEmptyResponse;
+use App\Core\Controller\BaseController;
+use App\Entity\User;
+use Common\Communication\HtmlMailer\Mailer;
+use Common\Communication\HtmlMailer\MailerMessage;
+use Common\DataManagement\Validator\DataValidator;
+use Common\DataStorage\Redis\RedisCacheRegistry;
+use Doctrine\Persistence\ManagerRegistry;
+use stdClass;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Routing\Annotation\Route;
+
+/**
+ * API Controller to manages a business.
+ *
+ * @Route("/api/change-password")
+ */
+class ChangePasswordController extends BaseController
+{
+    /**
+     * Generates a link to change the password for a user.
+     *
+     * @param Request            $request
+     * @param Mailer             $mailer
+     * @param RedisCacheRegistry $cache
+     * @param RouterInterface    $router
+     * @param ManagerRegistry    $doctrine
+     *
+     * @return JsonResponse
+     * @throws ApiErrorException
+     * @throws ApiNormalOperationException
+     */
+    public function sendLinkToUpdatePassword(
+        Request $request,
+        Mailer $mailer,
+        RedisCacheRegistry $cache,
+        RouterInterface $router,
+        ManagerRegistry $doctrine
+    ): JsonResponse {
+
+        $email = $request->get('email');
+        $valid = (new DataValidator())->isValidString($email);
+        if (!$valid || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new ApiNormalOperationException(['The email is invalid.']);
+        }
+
+        /** @var User|null $user */
+        $user = $this->_repository($doctrine, User::class)->findOneByEmail($email);
+        if (!$user) {
+            // CWE-476 & CWE-200: Prevent fatal null pointer and user enumeration
+            return $this->_buildJsonResponse(new ApiEmptyResponse());
+        }
+
+        $ttlMinutes   = 15;
+        // CWE-338: Use cryptographically secure 256-bit random token
+        $hash         = bin2hex(random_bytes(32));
+        // CWE-640: Eliminate $_SERVER['HTTP_ORIGIN'], use Symfony RequestContext absolute URL
+        $link         = $router->generate('change_password', ['hash' => $hash], RouterInterface::ABSOLUTE_URL);
+        $data         = new stdClass();
+        $data->userId = $user->getId();
+        $data->link   = $link;
+        $cache->set($hash, $data, $ttlMinutes * 60); // Save hash for 15 minutes.
+        $title = $this->getParameter('system_title');
+        $msg   = new MailerMessage("$title - Recover password.", $email);
+        $msg->setContext([
+            'emailAddress' => $email,
+            'link'         => $data->link,
+            'ttlMinutes'   => $ttlMinutes,
+        ]);
+        $msg->setHtmlTemplate('/email/security/change_password/change_password_link.html.twig');
+        if (!$mailer->send($msg)) {
+            throw new ApiErrorException(['The link to change the password was not able to be sent.']);
+        }
+
+        return $this->_buildJsonResponse(new ApiEmptyResponse());
+    }
+}

@@ -1,0 +1,40 @@
+{% import '/components/helpers_macro.html.twig' as helpers %}
+
+{% if isErrorPage is not defined %}
+    {% set isErrorPage = false %}
+{% endif %}
+
+<footer id="footer" class="bg-grey-dark {{ isErrorPage ? 'footer-fixed' }}">
+    <div class="footer-top bg-grey-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 footer-links text-center">
+                    <h3>{{ owner_company_name }}</h3>
+                    <p>
+                        <strong>Phone:</strong> {{ sys_admin_phone|dashed }}<br>
+                        <strong>Email:</strong> {{ sys_admin_email }}<br>
+                    </p>
+                </div>
+
+                <div class="col-md-6 footer-links text-center">
+                    <h3>Social Networks</h3>
+                    <div class="social-links mt-3">
+                        <a href="{{ sys_admin_linkedin_profile_url }}" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                        <a href="{{ sys_admin_email }}" class="email"><i class="fa fa-envelope"></i></a>
+                        <a href="{{ sys_admin_personal_page_url }}" class="website"><i class="fa fa-globe"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container py-4 text-center">
+        {{ owner_company_name }} - {{ helpers.copyright() }}
+        <div>
+            <small>
+                This website is built based on <a href="https://bootstrapmade.com/">BootstrapMade</a> theme.
+            </small>
+        </div>
+    </div>
+</footer><!-- End Footer -->

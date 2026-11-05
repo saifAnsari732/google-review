@@ -1,0 +1,63 @@
+{% extends '/layout/base.html.twig' %}
+{% import '/components/helpers_macro.html.twig' as helpers %}
+
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('/app/css/business.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/css/input-loading.css') }}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+{% endblock %}
+
+{% block title %} | Create business{% endblock %}
+
+{% block urls %}
+    data-api_v1_google_place_autocomplete_get={{ path('api_v1_google_place_autocomplete_get') }}
+    data-api_v1_google_place_details_post={{ path('api_v1_google_place_details_post') }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12 col-md-8 offset-md-2">
+            <div class="card card-info card-outline direct-chat direct-chat-info">
+                {{ form_start(form) }}
+                <div class="card-header card-header-compressed">
+                    <h4 class="card-title">Create business</h4>
+                    <div class="card-tools">
+                        <a href="{{ path('business_list') }}" class="btn btn-xs btn-light">Cancel</a>
+                        <button type="submit" class="btn btn-xs btn-info">Insert</button>
+                    </div>
+                </div>
+                <div class="card-body p-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8 offset-md-2">
+                            {% include '/business/create_edit/_form_fields.html.twig' %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer p-2 text-right">
+                    <a href="{{ path('business_list') }}" class="btn btn-light btn-sm">Cancel</a>
+                    <button type="submit" class="btn btn-info btn-sm">Insert</button>
+                </div>
+                {{ form_end(form) }}
+                {{ helpers.form_processing() }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="{{ asset('/dist/js/cleave_js.js') }}"></script>
+    <script src="{{ asset('/app/js/common/InputSpinner.js') }}"></script>
+    <script src="{{ asset('/app/js/business/BusinessFormValidator.js') }}"></script>
+    <script src="{{ asset('/app/js/business/BusinessCreate.js') }}"></script>
+    <script src="{{ asset('/app/js/common/FormFieldFormatter.js') }}"></script>
+    <script src="{{ asset('/app/js/business/FindPlaceDetails.js') }}"></script>
+    <script src="{{ asset('/app/js/business/AddressAutoComplete.js') }}"></script>
+    <script>
+        (new BusinessCreate()).init();
+        (new FormFieldFormatter()).formatZipCodeFields();
+        (new AddressAutoComplete()).init();
+    </script>
+{% endblock %}

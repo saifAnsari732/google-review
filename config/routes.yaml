@@ -1,0 +1,2 @@
+api:
+  resource: 'routes/api/v1/bo-openapi.yaml'

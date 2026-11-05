@@ -1,0 +1,111 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    Common\View\Twig\Filter\DashedPhoneTwigExtension: ~
+
+    App\Core\Listener\ExceptionListener:
+        arguments:
+            - '@router'
+            - "%kernel.environment%"
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+    logger:
+       alias: 'monolog.logger'
+       public: true
+
+    App\Demo\Generator\EntityGenerator:
+        class: App\Demo\EntityGenerator
+        public: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@security.user_password_hasher'
+        tags:
+            [ 'doctrine.fixture.orm' ]
+
+    App\Demo\Generator\EntityGeneratorCommand:
+        class: App\Demo\EntityGeneratorCommand
+        public: true
+        arguments: [ '@App\Demo\Generator\EntityGenerator']
+
+    Common\Communication\Mailer\SendGrid\Mailer:
+        class: Common\Communication\Mailer\SendGrid\Mailer
+        arguments:
+            - '%sendgrid_api_key%'
+            - '%sender_email%'
+            - '%sender_name%'
+
+    Common\Communication\HtmlMailer\Mailer:
+        class: Common\Communication\HtmlMailer\Mailer
+        public: true
+        arguments:
+            - '@mailer'
+            - '@logger'
+            - '%sender_email%'
+            - '%internal_to_email%'
+            - '%sender_name%'
+
+    App\Google\GoogleMap\Place\Core\Transport\Transport:
+        class: App\Google\GoogleMap\Place\Core\Transport\Transport
+        public: true
+
+    App\Google\GoogleMap\Place\Services\PlaceAutocomplete\PlaceAutocompleteService:
+        class: App\Google\GoogleMap\Place\Services\PlaceAutocomplete\PlaceAutocompleteService
+        public: true
+        arguments:
+            - '@App\Google\GoogleMap\Place\Core\Transport\Transport'
+            - '%google_map_api_key%'
+
+    App\Google\GoogleMap\Place\Services\PlaceDetails\PlaceDetailsService:
+        class: App\Google\GoogleMap\Place\Services\PlaceDetails\PlaceDetailsService
+        public: true
+        arguments:
+            - '@App\Google\GoogleMap\Place\Core\Transport\Transport'
+            - '%google_map_api_key%'
+
+    App\Api\Core\Services\GoogleReviewManager\ApiGoogleReviewManager:
+        class: App\Api\Core\Services\GoogleReviewManager\ApiGoogleReviewManager
+        public: true
+        arguments:
+            - '%google_write_review_base_url%'
+
+    App\Core\Cache\FallbackRedisCacheRegistry:
+        class: App\Core\Cache\FallbackRedisCacheRegistry
+        public: true
+        arguments:
+            $host: '%redis_host%'
+            $keyPrefix: 'google_review_manager_'
+            $password: '%redis_password%'
+            $port: '%redis_port%'
+            $projectDir: '%kernel.project_dir%'
+            $logger: '@?logger'
+
+    Common\DataStorage\Redis\RedisCacheRegistry:
+        alias: App\Core\Cache\FallbackRedisCacheRegistry
+        public: true
+
+    App\Core\Cache\CacheRegistryInterface:
+        alias: App\Core\Cache\FallbackRedisCacheRegistry
+        public: true
+
+    Common\Security\AntiSpam\ReCaptcha\v3\ClientToken\HttpPostTokenRetriever:
+        class: Common\Security\AntiSpam\ReCaptcha\v3\ClientToken\HttpPostTokenRetriever
+        public: true
+
+    Common\Security\AntiSpam\ReCaptcha\v3\ReCaptchaV3Validator:
+        class: Common\Security\AntiSpam\ReCaptcha\v3\ReCaptchaV3Validator
+        arguments:
+            - '%recaptcha_v3_grm_secret_key%'
+            - '%google_url_token_validator%'
+            - '@Common\Security\AntiSpam\ReCaptcha\v3\ClientToken\HttpPostTokenRetriever'

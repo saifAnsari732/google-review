@@ -1,0 +1,5 @@
+parameters:
+  sender_email: '%env(SENDGRID_SENDER_EMAIL)%'
+  sender_name: '%system_title%'
+  sendgrid_api_key: '%env(SENDGRID_API_KEY)%'
+  internal_to_email: '%env(SENDGRID_INTERNAL_TO_EMAIL)%'

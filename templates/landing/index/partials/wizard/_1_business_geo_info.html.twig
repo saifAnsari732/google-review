@@ -1,0 +1,53 @@
+<form id="form-landing-business-info">
+    <div class="row bg-white business-geo-location-container text-center">
+        <input type="hidden" data-id="business_form_place" name="business_form[place]" required="required">
+        <input type="hidden" id="business_id">
+        <input type="hidden" data-id="business_form_city" name="business_form[city]">
+        <input type="hidden" data-id="business_form_state" name="business_form[state]">
+        <input type="hidden" data-id="business_form_zipCode" name="business_form[zipCode]">
+        <div class="col">
+            <div class="row form-group d-flex justify-content-center">
+                <div class="col">
+                    <h2 class="mt-0 mb-2">Let's find your business!</h2>
+                </div>
+            </div>
+            <div class="row form-group bg-white business-geo-location-container ">
+                <div class="col-md-6 offset-md-3 col-sm-12">
+                    <div class="row mb-3">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="business_form_address" class="required pt-3 pb-3 font-14">
+                                    In order to locate the desired place, please enter either the business name or address.
+                                    We will locate it for you.
+                                </label>
+                                <div class="inputcontainer">
+                                    <input type="text" id="business_form_address" data-id="business_form_address"
+                                           name="business_form[address]"
+                                           required="required"
+                                           placeholder="Business name or Address"
+                                           class="form-control form-control-border form-control ui-autocomplete-input"
+                                           minlength="2"
+                                           maxlength="255" help="Address of the business location."
+                                           value="23445 SW 120th Ave"
+                                           autocomplete="off">
+                                    <div class="icon-container d-none">
+                                        <i class="loader"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-center mb-2">
+                        <div class="col">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary" id="btnGoToContactPage" disabled>
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

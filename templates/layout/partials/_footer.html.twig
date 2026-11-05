@@ -1,0 +1,16 @@
+{% import '/components/helpers_macro.html.twig' as helpers %}
+
+<footer class="main-footer">
+    <div class="text-center">
+        {% if systemVersion is defined and systemVersion %}
+            <div class="float-right d-none d-sm-block">
+                <b>Version</b> systemVersion
+            </div>
+        {% endif %}
+        <strong><small>{{ helpers.copyright() }}</small> </strong>
+        <small>Yenier Jimenez - All rights reserved.</small>
+        <div class="d-none">
+            <small>Design based on <a href="https://adminlte.io" target="_blank">AdminLTE.io.</a></small>
+        </div>
+    </div>
+</footer>

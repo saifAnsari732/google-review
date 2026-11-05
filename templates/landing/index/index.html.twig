@@ -1,0 +1,79 @@
+{% extends '/landing/layout/base.html.twig' %}
+
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="{{ asset('/dist/css/adminlte_toastr_css.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/css/input-loading.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/css/landing-page.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/css/wizard.css') }}">
+{% endblock %}
+
+{% block urls %}
+    data-api_v1_google_place_autocomplete_get="{{ path('api_v1_google_place_autocomplete_get') }}"
+    data-api_v1_google_place_details_post="{{ path('api_v1_google_place_details_post') }}"
+{% endblock %}
+
+
+{% block content %}
+    <section id="hero">
+        <div id="particles-js" data-effect="star"></div>
+        <div class="row visible-wizard">
+            <div class="col text-center d-flex justify-content-center w-100">
+                {% include '/landing/index/partials/wizard/_wizard.html.twig' %}
+            </div>
+        </div>
+    </section>
+
+    <main id="main">
+    {# Google Review Link - Results #}
+    <section id="yourGoogleReviewLink" class="section-bg d-none">
+        <div class="container aos-init aos-animate" >
+            <div class="section-title pb-0">
+                <h3>Here is your Google Review Link</h3>
+                <p class="font-weight-100">
+                    <span id="googleReviewLinkResultBusinessName"></span>
+                </p>
+                <p class="font-weight-100">
+                    <img src="{{ asset('/img/googlemap.png') }}" width="25" height="25">
+                    <span id="googleReviewLinkResultAddress"></span>
+                </p>
+            </div>
+            <div class="row">
+                <div class="col aos-init aos-animate" >
+                    {% include '/landing/index/partials/_google_review_link_results.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# Contact US Form #}
+    {% include '/landing/index/partials/_contact_us.html.twig' %}
+    </main>
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('/dist/js/adminlte_toastr_js.js') }}"></script>
+    <script src="{{ asset('/app/js/common/Notification.js') }}"></script>
+    <script src="{{ asset('/app/js/landing/BusinessAddressValidator.js') }}"></script>
+    <script src="{{ asset('/app/js/landing/ContactFormValidator.js') }}"></script>
+    <script src="{{ asset('/app/js/landing/ContactUsFormValidator.js') }}"></script>
+    <script src="{{ asset('/app/js/landing/LandingPageAddressAutoComplete.js') }}"></script>
+    <script src="{{ asset('/app/js/common/InputSpinner.js') }}"></script>
+    <script src="{{ asset('/app/js/common/CopyClipboard.js') }}"></script>
+    <script src="{{ asset('/app/js/landing/LandingPage.js') }}"></script>
+    <script src="{{ asset('/app/js/landing/ContactUsForm.js') }}"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render={{ siteKey }}"></script>
+    <script>
+        (new CopyClipboard()).init();
+        (new ContactUsForm()).init();
+        $('[data-toggle="tooltip"]').tooltip();
+        (new LandingPage()).init();
+    </script>
+{% endblock %}

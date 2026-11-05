@@ -1,0 +1,127 @@
+.card-header-compressed {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.dataTables_filter {
+    text-align: end;
+}
+
+.table-sm th, .table-sm td {
+    font-size: 14px;
+}
+
+.dataTables_length, .dataTables_filter, .dataTables_info, .paginate_button {
+    font-size: 14px;
+}
+
+.cursor-help {
+    cursor: help;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.datatable-child-details {
+    background-color: #d8dbdf;
+}
+
+.card input, .card select {
+    font-size: 14px;
+}
+
+.modal-body select, .card-body select {
+    font-size: 14px;
+    margin-bottom: 0;
+    height: 25px;
+}
+
+.business-list-filter-container .default-input {
+    height: 38px;
+}
+
+.modal-body input, .card-body input {
+    font-size: 14px;
+    margin-bottom: 0;
+    height: 25px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.modal-body label, .card-body label {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.modal-body [data-id="modal-body"], .modal-header [data-id="modal-title" ] {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.modal-body {
+    font-size: 14px;
+}
+
+th.non-top-border {
+    border-top: none !important;
+}
+
+.font-14 {
+    font-size: 14px;
+}
+
+.badge {
+    font-weight: 500;
+}
+
+.bg-shadow {
+    box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .2), 0 1px 8px 0 rgba(0, 0, 0, .12);
+}
+
+.paginate_button.active .page-link {
+    background-color: #117a8b !important;
+    border-color: #117a8b !important;
+    color: white;
+}
+
+.paginate_button:not(.active):not(.disabled) .page-link {
+    color: #117a8b !important;
+}
+
+.select2-selection__rendered {
+    height: 30px !important;
+}
+
+.select2-container .select2-selection--single {
+    height: 30px !important;
+}
+
+.select2-selection__arrow {
+    height: 30px !important;
+}
+
+.select2-container--bootstrap4 .select2-selection--single .select2-selection__arrow {
+    top: 0;
+}
+
+.select2-selection__clear {
+    margin-top: 8px;
+}
+
+.select2-container--bootstrap4 .select2-results__option {
+    height: 30px;
+    font-size: 14px;
+}
+
+.link-black-no-hover {
+    color: black;
+}
+
+.link-black-no-hover:hover {
+    color: #4f4f4f;
+}
+
+.form-group {
+    margin-bottom: .6rem;
+}

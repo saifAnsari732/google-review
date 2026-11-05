@@ -1,0 +1,120 @@
+.font-weight-100 {
+    font-weight: 100 !important;
+}
+
+.font-weight-100 {
+    font-weight: 1 !important;
+}
+
+.visible-wizard {
+    z-index: 50;
+    position: relative;
+}
+
+.business-geo-location-container {
+    z-index: 2;
+    background-color: white;
+}
+
+.with-90 {
+    width: 90%;
+}
+
+.p-15 {
+    padding: 15px;
+}
+
+.system-font-color {
+    color: #0c454f;
+}
+
+.google-review-link-container {
+    padding: 20px !important;
+    background: #d3f5ff !important;
+}
+
+#hero {
+    height: 450px;
+    background-color: black !important;
+    background-image: none !important;
+}
+
+#hero::before {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+#particles-js {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 33;
+}
+
+.grecaptcha-badge {
+    display: none !important;
+}
+
+.smartwizard {
+    width: 90%;
+}
+
+.footer-fixed {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+}
+
+.font-10 {
+    font-size: 10px;
+}
+
+.font-14 {
+    font-size: 14px;
+}
+
+.reviews-manager-link:hover {
+    text-decoration: underline;
+}
+
+.bg-grey-dark {
+    background-color: #343a40 !important;
+    color: #c2c2c2 !important;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    #header .logo {
+        font-size: 16px;
+    }
+
+    .navbar-mobile ul {
+        bottom: 25%;
+    }
+
+    section#hero {
+        padding: 30px 0;
+        height: 480px;
+    }
+
+    #business_form_address {
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    .smartwizard {
+        width: 90%;
+    }
+}
+
+/* Tablet */
+@media (min-width: 641px) and (max-width: 768px) {
+    #header .logo {
+        font-size: 25px;
+    }
+
+    .navbar-mobile ul {
+        bottom: 25%;
+    }
+}

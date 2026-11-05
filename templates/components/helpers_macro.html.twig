@@ -1,0 +1,150 @@
+{#
+Renders a symfony form field.
+@param field: represents the form field.
+#}
+{% macro field(field) %}
+    <div class="form-group">
+        {{ form_label(field) }}
+        {{ form_widget(field) }}
+        {% if field.vars.attr.help ?? false %}
+            <small class="text-muted">{{ field.vars.attr.help }}</small>
+        {% endif %}
+        {% if field.vars.errors|length %}
+            <div class="text-danger">
+                {{ form_errors(field) }}
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{#
+Renders a "No results found" label.
+@param message: represents the message to be rendered
+@param id: represents the id of the component
+#}
+{% macro no_result(message, id, textCenter = true, class = null) %}
+    <div {% if id %}id="{{ id }}"{% endif %} class="callout callout-warning {{ class ? class }}">
+        <p class="{{ textCenter ? 'text-center' }} text-muted font-14">
+            {% if message %}
+                {{ message }}
+            {% else %}
+                No results found.
+            {% endif %}
+        </p>
+    </div>
+{% endmacro %}
+
+{#
+Renders Dots loading component
+#}
+{% macro loading_dot() %}
+    <div class="text-center d-none p-1" data-id="loading-dot">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+{% endmacro %}
+
+{% macro form_processing() %}
+    <div class="overlay d-none">
+        <div class="spinner-border text-info" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+{% endmacro %}
+
+{#
+Renders a skeleton loading component
+@param id Represents the components id.
+#}
+{% macro loading_skeleton(id) %}
+    {% set idAttr = 'loading-skeleton' %}
+    {% if id %}
+        {% set idAttr = id %}
+    {% endif %}
+    <div id="{{ idAttr }}" class="skeleton-box">
+        <div class="skeleton">
+            <div class="skeleton-left flex1">
+                <div class="square"></div>
+            </div>
+            <div class="skeleton-right flex2">
+                <div class="line h17 w40 m10"></div>
+                <div class="line"></div>
+                <div class="line h8 w50"></div>
+                <div class="line  w75"></div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{#
+Renders the success flash notification messages caming from symfony controllers.
+#}
+{% macro notifications_success() %}
+    {% for message in app.flashes('success') %}
+        <div class="notifications-success d-none">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endmacro %}
+
+{#
+Renders the error flash notification messages caming from symfony controllers.
+#}
+{% macro notifications_error() %}
+    {% for message in app.flashes('error') %}
+        <div class="notifications-error d-none">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endmacro %}
+
+{#
+Renders the warning flash notification messages caming from symfony controllers.
+#}
+{% macro notifications_warning() %}
+    {% for message in app.flashes('warning') %}
+        <div class="notifications-warning d-none">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endmacro %}
+
+{#
+Renders the copyright information #}
+{% macro copyright() %}
+    {% set startDate = '2022' %}
+    {% set nowYear = 'now' | date('Y') %}
+    {% if nowYear == startDate %}
+        Copyright &copy; {{ startDate }}.
+    {% else %}
+        Copyright &copy; {{ startDate }} - {{ nowYear }}
+    {% endif %}
+{% endmacro %}
+
+{#
+Use this macro to render an input field with a spinner loader inside.
+#}
+{% macro inputSpinner(field) %}
+    <div class="form-group">
+        {{ form_label(field) }}
+        <div class="inputcontainer">
+            {{ form_widget(field) }}
+            <div class="icon-container d-none">
+                <i class="loader"></i>
+            </div>
+        </div>
+        {% if field.vars.errors|length %}
+            <div class="text-danger">
+                {{ form_errors(field) }}
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{#
+# Use this macro to render the spinner inside a button.
+#}
+{% macro buttonSpinner() %}
+    <span class="spinner-border spinner-border-sm d-none btn-spinner" role="status" aria-hidden="true"></span>
+{% endmacro %}

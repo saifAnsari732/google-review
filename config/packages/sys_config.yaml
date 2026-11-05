@@ -1,0 +1,21 @@
+parameters:
+  system_title: 'Google Review Link Manager'
+  google_write_review_base_url: https://search.google.com/local/writereview?placeid=
+  google_map_api_key: '%env(GOOGLE_MAP_API_KEY)%'
+  qr_code_dir: 'google_reviews/qr_codes'
+  sys_admin_email: '%env(SYS_ADMIN_EMAIL)%'
+  sys_admin_linkedin_profile_url: '%env(SYS_ADMIN_LINKEDIN_PROFILE_URL)%'
+  sys_admin_personal_page_url: '%env(SYS_ADMIN_PERSONAL_PAGE_URL)%'
+  sys_admin_phone: '%env(SYS_ADMIN_PHONE)%'
+
+  redis_host: '%env(REDIS_HOST)%'
+  redis_port: '%env(REDIS_PORT)%'
+  redis_password: null
+
+  recaptcha_v3_grm_site_key: '%env(RECAPTCHA_V3_GRM_SITE_KEY)%'
+  recaptcha_v3_grm_secret_key: '%env(RECAPTCHA_V3_GRM_SECRET_KEY)%'
+  recaptcha_v3_grm_generate_review_guest_user_action: 'generate_review_guest_user_action'
+  google_url_token_validator: 'https://www.google.com/recaptcha/api/siteverify'
+  google_measurement_id: '%env(GOOGLE_MEASUREMENT_ID)%'
+
+  owner_company_name: Macagua Web Solutions
